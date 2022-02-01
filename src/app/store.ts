@@ -29,11 +29,6 @@ function* rootWatcher() {
 
 sagaMiddleware.run(rootWatcher);
 
-// setTimeout(() => {
-//     // @ts-ignore
-//     store.dispatch({type: 'ACTIVATOR-ACTION-TYPE'});
-// }, 2000);
-
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
 window.store = store;
