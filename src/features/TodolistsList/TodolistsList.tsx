@@ -10,16 +10,13 @@ import {
     removeTodolistTC,
     TodolistDomainType
 } from './todolists-reducer'
-import {
-    TasksStateType,
-    updateTaskTC
-} from './tasks-reducer'
+import {TasksStateType} from './tasks-reducer'
 import {TaskStatuses} from '../../api/todolists-api'
 import {Grid, Paper} from '@material-ui/core'
 import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
 import {Redirect} from 'react-router-dom'
-import {addTask, removeTask} from "./tasks-sagas";
+import {addTask, removeTask, updateTask} from "./tasks-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -49,13 +46,11 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [])
 
     const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-        const thunk = updateTaskTC(id, {status}, todolistId)
-        dispatch(thunk)
+        dispatch(updateTask(id, {status}, todolistId));
     }, [])
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const thunk = updateTaskTC(id, {title: newTitle}, todolistId)
-        dispatch(thunk)
+        dispatch(updateTask(id, {title: newTitle}, todolistId))
     }, [])
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
