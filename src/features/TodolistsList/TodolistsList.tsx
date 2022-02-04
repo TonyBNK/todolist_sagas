@@ -5,7 +5,6 @@ import {
     addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTitleTC,
-    fetchTodolistsTC,
     FilterValuesType,
     removeTodolistTC,
     TodolistDomainType
@@ -17,6 +16,7 @@ import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
 import {Redirect} from 'react-router-dom'
 import {addTask, removeTask, updateTask} from "./tasks-sagas";
+import {fetchTodolists} from "./todolists-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -33,8 +33,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         if (demo || !isLoggedIn) {
             return;
         }
-        const thunk = fetchTodolistsTC()
-        dispatch(thunk)
+        dispatch(fetchTodolists())
     }, [])
 
     const removeTaskHandler = useCallback(function (id: string, todolistId: string) {

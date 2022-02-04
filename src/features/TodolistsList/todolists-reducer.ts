@@ -1,6 +1,11 @@
 import {todolistsAPI, TodolistType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
-import {RequestStatusType, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
+import {
+    RequestStatusType,
+    SetAppErrorActionType,
+    setAppStatusAC,
+    SetAppStatusActionType
+} from '../../app/app-reducer'
 import {handleServerNetworkError} from '../../utils/error-utils'
 
 const initialState: Array<TodolistDomainType> = []
@@ -43,19 +48,7 @@ export const changeTodolistEntityStatusAC = (id: string, status: RequestStatusTy
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET-TODOLISTS', todolists} as const)
 
 // thunks
-export const fetchTodolistsTC = () => {
-    return (dispatch: ThunkDispatch) => {
-        dispatch(setAppStatusAC('loading'))
-        todolistsAPI.getTodolists()
-            .then((res) => {
-                dispatch(setTodolistsAC(res.data))
-                dispatch(setAppStatusAC('succeeded'))
-            })
-            .catch(error => {
-                handleServerNetworkError(error, dispatch);
-            })
-    }
-}
+
 export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: ThunkDispatch) => {
         //изменим глобальный статус приложения, чтобы вверху полоса побежала
