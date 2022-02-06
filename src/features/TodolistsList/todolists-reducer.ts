@@ -47,16 +47,16 @@ export const changeTodolistEntityStatusAC = (id: string, status: RequestStatusTy
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET-TODOLISTS', todolists} as const)
 
 // thunks
-export const addTodolistTC = (title: string) => {
-    return (dispatch: ThunkDispatch) => {
-        dispatch(setAppStatusAC('loading'))
-        todolistsAPI.createTodolist(title)
-            .then((res) => {
-                dispatch(addTodolistAC(res.data.data.item))
-                dispatch(setAppStatusAC('succeeded'))
-            })
-    }
-}
+// export const addTodolistTC = (title: string) => {
+//     return (dispatch: ThunkDispatch) => {
+//         dispatch(setAppStatusAC('loading'))
+//         todolistsAPI.createTodolist(title)
+//             .then((res) => {
+//                 dispatch(addTodolistAC(res.data.data.item))
+//                 dispatch(setAppStatusAC('succeeded'))
+//             })
+//     }
+// }
 export const changeTodolistTitleTC = (id: string, title: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         todolistsAPI.updateTodolist(id, title)

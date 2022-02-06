@@ -3,6 +3,7 @@ import {setAppStatusAC} from "../../app/app-reducer";
 import {todolistsAPI} from "../../api/todolists-api";
 import {handleServerNetworkError} from "../../utils/error-utils";
 import {
+    addTodolistAC,
     changeTodolistEntityStatusAC, removeTodolistAC,
     setTodolistsAC
 } from "./todolists-reducer";
@@ -35,7 +36,20 @@ export const removeTodolist = (todolistId: string) => ({
     todolistId
 });
 
+export function* addTodolistWorkerSaga(action: ReturnType<typeof addTodolist>) {
+    yield put(setAppStatusAC('loading'));
+    const res = yield call(todolistsAPI.createTodolist, action.title);
+    yield put(addTodolistAC(res.data.data.item));
+    yield put(setAppStatusAC('succeeded'));
+}
+
+export const addTodolist = (title: string) => ({
+    type: 'TODOLISTS/ADD-TODOLIST',
+    title
+})
+
 export function* todolistsWatcherSaga() {
     yield takeEvery('TODOLISTS/FETCH-TODOLISTS', fetchTodolistsWorkerSaga);
     yield takeEvery('TODOLISTS/REMOVE-TODOLIST', removeTodolistWorkerSaga);
+    yield takeEvery('TODOLISTS/ADD-TODOLIST', addTodolistWorkerSaga);
 }

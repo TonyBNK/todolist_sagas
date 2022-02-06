@@ -2,7 +2,6 @@ import React, {useCallback, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppRootStateType} from '../../app/store'
 import {
-    addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTitleTC,
     FilterValuesType,
@@ -15,7 +14,7 @@ import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
 import {Redirect} from 'react-router-dom'
 import {addTask, removeTask, updateTask} from "./tasks-sagas";
-import {fetchTodolists, removeTodolist} from "./todolists-sagas";
+import {addTodolist, fetchTodolists, removeTodolist} from "./todolists-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -65,9 +64,8 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         dispatch(thunk)
     }, [])
 
-    const addTodolist = useCallback((title: string) => {
-        const thunk = addTodolistTC(title)
-        dispatch(thunk)
+    const addTodo = useCallback((title: string) => {
+        dispatch(addTodolist(title));
     }, [dispatch])
 
     if (!isLoggedIn) {
@@ -76,7 +74,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 
     return <>
         <Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodolist}/>
+            <AddItemForm addItem={addTodo}/>
         </Grid>
         <Grid container spacing={3}>
             {
