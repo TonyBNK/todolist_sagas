@@ -18,7 +18,7 @@ export const todolistsAPI = {
         return promise;
     },
     createTodolist(title: string) {
-        const promise = instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title: title});
+        const promise = instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title});
         return promise;
     },
     deleteTodolist(id: string) {
@@ -26,8 +26,7 @@ export const todolistsAPI = {
         return promise;
     },
     updateTodolist(id: string, title: string) {
-        const promise = instance.put<ResponseType>(`todo-lists/${id}`, {title: title});
-        return promise;
+        return instance.put<ResponseType>(`todo-lists/${id}`, {title});
     },
     getTasks(todolistId: string): Promise<AxiosResponse<GetTasksResponse>> {
         return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);

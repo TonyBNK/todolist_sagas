@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import {AppRootStateType} from '../../app/store'
 import {
     changeTodolistFilterAC,
-    changeTodolistTitleTC,
     FilterValuesType,
     TodolistDomainType
 } from './todolists-reducer'
@@ -14,7 +13,12 @@ import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
 import {Redirect} from 'react-router-dom'
 import {addTask, removeTask, updateTask} from "./tasks-sagas";
-import {addTodolist, fetchTodolists, removeTodolist} from "./todolists-sagas";
+import {
+    addTodolist,
+    changeTodolistTitle,
+    fetchTodolists,
+    removeTodolist
+} from "./todolists-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -59,9 +63,8 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         dispatch(removeTodolist(id));
     }, [])
 
-    const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const thunk = changeTodolistTitleTC(id, title)
-        dispatch(thunk)
+    const changeTodoTitle = useCallback(function (id: string, title: string) {
+        dispatch(changeTodolistTitle(id, title));
     }, [])
 
     const addTodo = useCallback((title: string) => {
@@ -92,7 +95,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
                                 changeTaskStatus={changeStatus}
                                 removeTodolist={deleteTodolist}
                                 changeTaskTitle={changeTaskTitle}
-                                changeTodolistTitle={changeTodolistTitle}
+                                changeTodolistTitle={changeTodoTitle}
                                 demo={demo}
                             />
                         </Paper>

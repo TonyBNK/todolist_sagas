@@ -4,7 +4,7 @@ import {todolistsAPI} from "../../api/todolists-api";
 import {handleServerNetworkError} from "../../utils/error-utils";
 import {
     addTodolistAC,
-    changeTodolistEntityStatusAC, removeTodolistAC,
+    changeTodolistEntityStatusAC, changeTodolistTitleAC, removeTodolistAC,
     setTodolistsAC
 } from "./todolists-reducer";
 
@@ -46,10 +46,28 @@ export function* addTodolistWorkerSaga(action: ReturnType<typeof addTodolist>) {
 export const addTodolist = (title: string) => ({
     type: 'TODOLISTS/ADD-TODOLIST',
     title
-})
+});
+
+export function* changeTodolistTitleWorkerSaga(action: ReturnType<typeof changeTodolistTitle>) {
+    try {
+        const res = yield call(todolistsAPI.updateTodolist, action.id, action.title);
+        if (res.status === 200) {
+            yield put(changeTodolistTitleAC(action.id, action.title));
+        }
+    } catch (error) {
+        handleServerNetworkError(error, yield put);
+    }
+}
+
+export const changeTodolistTitle = (id: string, title: string) => ({
+    type: 'TODOLISTS/CHANGE-TODOLIST-TITLE',
+    id,
+    title
+});
 
 export function* todolistsWatcherSaga() {
     yield takeEvery('TODOLISTS/FETCH-TODOLISTS', fetchTodolistsWorkerSaga);
     yield takeEvery('TODOLISTS/REMOVE-TODOLIST', removeTodolistWorkerSaga);
     yield takeEvery('TODOLISTS/ADD-TODOLIST', addTodolistWorkerSaga);
+    yield takeEvery('TODOLISTS/CHANGE-TODOLIST-TITLE', changeTodolistTitleWorkerSaga);
 }
