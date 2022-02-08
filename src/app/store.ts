@@ -9,6 +9,7 @@ import {all} from 'redux-saga/effects'
 import {tasksWatcherSaga} from "../features/TodolistsList/tasks-sagas";
 import {appWatcherSaga} from "./app-sagas";
 import {todolistsWatcherSaga} from "../features/TodolistsList/todolists-sagas";
+import {authWatcherSaga} from "../features/Login/auth-sagas";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -27,7 +28,7 @@ export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, s
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
 function* rootWatcher() {
-    yield all([appWatcherSaga(), tasksWatcherSaga(), todolistsWatcherSaga()]);
+    yield all([appWatcherSaga(), tasksWatcherSaga(), todolistsWatcherSaga(), authWatcherSaga()]);
 }
 
 sagaMiddleware.run(rootWatcher);
