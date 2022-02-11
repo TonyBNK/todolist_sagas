@@ -27,6 +27,25 @@ export const login = (data: LoginParamsType) => ({
     data
 });
 
+export function* logoutWorkerSaga() {
+    try {
+        const res = yield call(authAPI.logout);
+        if (res.data.resultCode === 0) {
+            yield put(setIsLoggedInAC(false))
+            yield put(setAppStatusAC('succeeded'));
+        } else {
+            handleServerAppError(res.data, yield put);
+        }
+    } catch (error) {
+        handleServerNetworkError(error, yield put);
+    }
+}
+
+export const logout = () => ({
+    type: 'AUTH/LOG-OUT'
+});
+
 export function* authWatcherSaga() {
     yield takeEvery('AUTH/LOG-IN', loginWorkerSaga);
+    yield takeEvery('AUTH/LOG-OUT', logoutWorkerSaga);
 }

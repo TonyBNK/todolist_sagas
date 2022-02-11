@@ -18,8 +18,8 @@ import {AppRootStateType} from './store'
 import {RequestStatusType} from './app-reducer'
 import {BrowserRouter, Route} from 'react-router-dom'
 import {Login} from '../features/Login/Login'
-import {logoutTC} from '../features/Login/auth-reducer'
 import {initializeApp} from "./app-sagas";
+import {logout} from "../features/Login/auth-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -36,7 +36,7 @@ function App({demo = false}: PropsType) {
     }, [])
 
     const logoutHandler = useCallback(() => {
-        dispatch(logoutTC())
+        dispatch(logout())
     }, [])
 
     if (!isInitialized) {
