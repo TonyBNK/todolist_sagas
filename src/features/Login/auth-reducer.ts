@@ -26,5 +26,3 @@ type ActionsType = ReturnType<typeof setIsLoggedInAC>
 type InitialStateType = {
     isLoggedIn: boolean
 }
-
-type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
