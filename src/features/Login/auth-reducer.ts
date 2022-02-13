@@ -1,9 +1,3 @@
-import {Dispatch} from 'redux'
-import {
-    SetAppErrorActionType,
-    SetAppStatusActionType
-} from '../../app/app-reducer'
-
 const initialState: InitialStateType = {
     isLoggedIn: false
 }
